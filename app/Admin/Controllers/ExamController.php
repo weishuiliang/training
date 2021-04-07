@@ -26,11 +26,11 @@ class ExamController extends AdminController
     {
         $grid = new Grid(new Exam());
 
-        $grid->column('exam_id', __('Exam id'));
-        $grid->column('exam_name', __('Exam name'));
-        $grid->column('description', __('Description'));
-        $grid->column('create_at', __('Create at'));
-        $grid->column('update_at', __('Update at'));
+        $grid->column('exam_id', __('试卷ID'));
+        $grid->column('exam_name', __('试卷名称'));
+        $grid->column('description', __('试卷描述'));
+        $grid->column('create_at', __('创建时间'));
+        $grid->column('update_at', __('更新时间'));
 
         return $grid;
     }
@@ -45,11 +45,11 @@ class ExamController extends AdminController
     {
         $show = new Show(Exam::findOrFail($id));
 
-        $show->field('exam_id', __('Exam id'));
-        $show->field('exam_name', __('Exam name'));
-        $show->field('description', __('Description'));
-        $show->field('create_at', __('Create at'));
-        $show->field('update_at', __('Update at'));
+        $show->field('exam_id', __('试卷ID'));
+        $show->field('exam_name', __('试卷名称'));
+        $show->field('description', __('试卷描述'));
+        $show->field('create_at', __('创建时间'));
+        $show->field('update_at', __('更新时间'));
 
         return $show;
     }
@@ -63,11 +63,11 @@ class ExamController extends AdminController
     {
         $form = new Form(new Exam());
 
-        $form->number('exam_id', __('Exam id'));
-        $form->text('exam_name', __('Exam name'));
-        $form->text('description', __('Description'));
-        $form->datetime('create_at', __('Create at'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('update_at', __('Update at'))->default(date('Y-m-d H:i:s'));
+        $form->number('exam_id', __('试卷ID'));
+        $form->text('exam_name', __('试卷名称'));
+        $form->text('description', __('试卷描述'));
+        $form->datetime('create_at', __('创建时间'))->default(date('Y-m-d H:i:s'));
+        $form->datetime('update_at', __('更新时间'))->default(date('Y-m-d H:i:s'));
 
         return $form;
     }

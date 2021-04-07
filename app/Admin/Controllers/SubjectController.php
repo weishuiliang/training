@@ -26,11 +26,11 @@ class SubjectController extends AdminController
     {
         $grid = new Grid(new Subject());
 
-        $grid->column('subject_id', __('Subject id'));
-        $grid->column('subject_name', __('Subject name'));
-        $grid->column('description', __('Description'));
-        $grid->column('create_at', __('Create at'));
-        $grid->column('update_at', __('Update at'));
+        $grid->column('subject_id', __('科目ID'));
+        $grid->column('subject_name', __('科目名称'));
+        $grid->column('description', __('科目描述'));
+        $grid->column('create_at', __('创建时间'));
+        $grid->column('update_at', __('更新时间'));
 
         return $grid;
     }
@@ -45,11 +45,11 @@ class SubjectController extends AdminController
     {
         $show = new Show(Subject::findOrFail($id));
 
-        $show->field('subject_id', __('Subject id'));
-        $show->field('subject_name', __('Subject name'));
-        $show->field('description', __('Description'));
-        $show->field('create_at', __('Create at'));
-        $show->field('update_at', __('Update at'));
+        $show->field('subject_id', __('科目ID'));
+        $show->field('subject_name', __('科目名称'));
+        $show->field('description', __('科目描述'));
+        $show->field('create_at', __('创建时间'));
+        $show->field('update_at', __('更新时间'));
 
         return $show;
     }
@@ -63,11 +63,11 @@ class SubjectController extends AdminController
     {
         $form = new Form(new Subject());
 
-        $form->number('subject_id', __('Subject id'));
-        $form->text('subject_name', __('Subject name'));
-        $form->text('description', __('Description'));
-        $form->datetime('create_at', __('Create at'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('update_at', __('Update at'))->default(date('Y-m-d H:i:s'));
+        $form->number('subject_id', __('科目ID'));
+        $form->text('subject_name', __('科目名称'));
+        $form->text('description', __('科目描述'));
+        $form->datetime('create_at', __('创建时间'))->default(date('Y-m-d H:i:s'));
+        $form->datetime('update_at', __('更新时间'))->default(date('Y-m-d H:i:s'));
 
         return $form;
     }
