@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Classes;
 use App\Models\Student;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -15,7 +16,7 @@ class StudentController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Student';
+    protected $title = '学生';
 
     /**
      * Make a grid builder.
@@ -24,16 +25,17 @@ class StudentController extends AdminController
      */
     protected function grid()
     {
+        $classListArray = Classes::query()->pluck('class_name','class_id')->toArray();
+
         $grid = new Grid(new Student());
 
         $grid->column('student_id', __('学生ID'));
-        $grid->column('class_id', __('班级ID'));
+        $grid->column('class_id', __('班级ID'))->using($classListArray);
         $grid->column('name', __('姓名'));
         $grid->column('age', __('年龄'));
-        $grid->column('sex', __('性别'));
+        $grid->column('sex', __('性别'))->radio([ 1 =>'男', 2 => '女']);
+
 //        $grid->column('avatar', __('头像'));
-        $grid->column('create_at', __('创建时间'));
-        $grid->column('update_at', __('更新时间'));
 
         return $grid;
     }
@@ -46,16 +48,13 @@ class StudentController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Student::findOrFail($id));
+        $show = new Show(Student::query()->findOrFail($id));
 
-        $show->field('student_id', __('学生ID'));
         $show->field('class_id', __('班级ID'));
         $show->field('name', __('姓名'));
         $show->field('age', __('年龄'));
         $show->field('sex', __('性别'));
 //        $show->field('avatar', __('头像'));
-        $show->field('create_at', __('创建时间'));
-        $show->field('update_at', __('更新时间'));
 
         return $show;
     }
@@ -67,16 +66,24 @@ class StudentController extends AdminController
      */
     protected function form()
     {
+        $class = Classes::query()->get()->pluck('class_name', 'class_id')->toArray();
+
+
         $form = new Form(new Student());
 
-        $form->number('student_id', __('学生ID'));
-        $form->number('class_id', __('班级ID'));
+        $form->select('class_id', __('班级ID'))
+            ->options($class);
+
         $form->text('name', __('姓名'));
         $form->text('age', __('年龄'));
-        $form->switch('sex', __('性别'))->default(1);
-        $form->image('avatar', __('头像'));
-        $form->datetime('create_at', __('创建时间'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('update_at', __('更新时间'))->default(date('Y-m-d H:i:s'));
+
+
+        $states = [
+            'on'  => ['value' => 1, 'text' => '男', 'color' => 'success'],
+            'off' => ['value' => 2, 'text' => '女', 'color' => 'success'],
+        ];
+        $form->switch('sex', __('性别'))->states($states);
+//        $form->image('avatar', __('头像'));
 
         return $form;
     }

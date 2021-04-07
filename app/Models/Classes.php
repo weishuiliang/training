@@ -12,6 +12,9 @@ class Classes extends Model
 
     protected $table = 'class';
 
+    protected $primaryKey = 'class_id';
+
+
 
     public function student()
     {

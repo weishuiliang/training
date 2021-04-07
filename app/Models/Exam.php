@@ -11,4 +11,9 @@ class Exam extends Model
 
     protected $table = 'exam';
 
+
+    protected $primaryKey = 'exam_id';
+
+
+
 }

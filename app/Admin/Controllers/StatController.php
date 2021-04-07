@@ -2,7 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Exam;
+use App\Models\Student;
 use App\Models\StudentExamStat;
+use App\Models\Subject;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -15,7 +18,7 @@ class StatController extends AdminController
      *
      * @var string
      */
-    protected $title = 'StudentExamStat';
+    protected $title = '学生考试成绩';
 
     /**
      * Make a grid builder.
@@ -24,16 +27,19 @@ class StatController extends AdminController
      */
     protected function grid()
     {
+        $studentArray = Student::query()->pluck('name', 'student_id')->toArray();
+        $examArray = Exam::query()->pluck('exam_name','exam_id')->toArray();
+        $subjectArray = Subject::query()->pluck('subject_name','subject_id')->toArray();
+
+
         $grid = new Grid(new StudentExamStat());
 
         $grid->column('id', __('Id'));
-        $grid->column('student_id', __('学生ID'));
-        $grid->column('exam_id', __('试卷ID'));
-        $grid->column('subject_id', __('科目ID'));
+        $grid->column('student_id', __('学生'))->using($studentArray);
+        $grid->column('exam_id', __('试卷'))->using($examArray);
+        $grid->column('subject_id', __('科目'))->using($subjectArray);
         $grid->column('exam_score', __('考试分数'));
         $grid->column('errors', __('错题，用逗号隔开'));
-        $grid->column('create_at', __('创建时间'));
-        $grid->column('update_at', __('更新时间'));
 
         return $grid;
     }
@@ -46,16 +52,18 @@ class StatController extends AdminController
      */
     protected function detail($id)
     {
+        $studentArray = Student::query()->pluck('name', 'student_id')->toArray();
+        $examArray = Exam::query()->pluck('exam_name','exam_id')->toArray();
+        $subjectArray = Subject::query()->pluck('subject_name','subject_id')->toArray();
+
         $show = new Show(StudentExamStat::query()->findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('student_id', __('学生ID'));
-        $show->field('exam_id', __('试卷ID'));
-        $show->field('subject_id', __('科目ID'));
+        $show->field('student_id', __('学生ID'))->using($studentArray);
+        $show->field('exam_id', __('试卷ID'))->using($examArray);
+        $show->field('subject_id', __('科目ID'))->using($subjectArray);
         $show->field('exam_score', __('考试分数'));
         $show->field('errors', __('错题，用逗号隔开'));
-        $show->field('create_at', __('创建时间'));
-        $show->field('update_at', __('更新时间'));
 
         return $show;
     }
@@ -67,15 +75,26 @@ class StatController extends AdminController
      */
     protected function form()
     {
+        $studentArray = Student::query()->pluck('name', 'student_id')->toArray();
+        $examArray = Exam::query()->pluck('exam_name','exam_id')->toArray();
+        $subjectArray = Subject::query()->pluck('subject_name','subject_id')->toArray();
+
         $form = new Form(new StudentExamStat());
 
-        $form->number('student_id', __('学生ID'));
-        $form->number('exam_id', __('试卷ID'));
-        $form->number('subject_id', __('科目ID'));
+        $form->select('student_id', __('学生ID'))->options($studentArray)
+        ->rules("required", ["请选择学生"]);
+
+        $form->select('exam_id', __('试卷ID'))->options($examArray)
+        ->rules("required", ["请选择考卷"]);
+
+        $form->select('subject_id', __('科目ID'))->options($subjectArray)
+        ->rules("required", ["请选择科目"]);
+
         $form->text('exam_score', __('考试分数'));
-        $form->text('errors', __('错题，用逗号隔开'));
-        $form->datetime('create_at', __('创建时间'))->default(date('Y-m-d H:i:s'));
-        $form->datetime('update_at', __('更新时间'))->default(date('Y-m-d H:i:s'));
+
+        $form->textarea('errors', __('错题，用逗号隔开'))
+        ->rules("required", ["请填写错题"]);
+
 
         return $form;
     }

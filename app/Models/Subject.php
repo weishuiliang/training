@@ -11,4 +11,8 @@ class Subject extends Model
 
     protected $table = 'subject';
 
+
+    protected $primaryKey = 'subject_id';
+
+
 }
