@@ -40,6 +40,8 @@ class StatController extends AdminController
         $grid->column('subject_id', __('科目'))->using($subjectArray);
         $grid->column('exam_score', __('考试分数'));
         $grid->column('errors', __('错题，用逗号隔开'));
+        $grid->column('exam_time', __('考试时间'));
+
 
         return $grid;
     }
@@ -64,6 +66,8 @@ class StatController extends AdminController
         $show->field('subject_id', __('科目ID'))->using($subjectArray);
         $show->field('exam_score', __('考试分数'));
         $show->field('errors', __('错题，用逗号隔开'));
+        $show->field('exam_time', __('考试时间'));
+
 
         return $show;
     }
@@ -94,6 +98,8 @@ class StatController extends AdminController
 
         $form->textarea('errors', __('错题，用逗号隔开'))
         ->rules("required", ["请填写错题"]);
+
+        $form->datetime('exam_time',__('考试时间'));
 
 
         return $form;
