@@ -17,13 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 
+Route::get('/class-score', 'HomeController@classScore');
 
-Route::get('/home', 'StaticPagesController@home');
-Route::get('/help', 'StaticPagesController@help');
-Route::get('/about', 'StaticPagesController@about');
-Route::get('/rand', 'StaticPagesController@rand');
+Route::get('/person-score-trend', 'HomeController@personScoreTrend');
 
+Route::get('/person-error-trend', 'HomeController@personErrorTrend');
+
+
+
+//Route::get('/home', 'StaticPagesController@home');
+//Route::get('/help', 'StaticPagesController@help');
+//Route::get('/about', 'StaticPagesController@about');
+//Route::get('/rand', 'StaticPagesController@rand');
 //Route::get('/rand', [\App\Http\Controllers\StaticPagesController::class, 'rand']);
-
-
-Route::get('/car/brandList/', [CarController::class, 'brandList']);
+//Route::get('/car/brandList/', [CarController::class, 'brandList']);

@@ -60,7 +60,6 @@ class StatController extends AdminController
 
         $show = new Show(StudentExamStat::query()->findOrFail($id));
 
-        $show->field('id', __('Id'));
         $show->field('student_id', __('学生ID'))->using($studentArray);
         $show->field('exam_id', __('试卷ID'))->using($examArray);
         $show->field('subject_id', __('科目ID'))->using($subjectArray);
