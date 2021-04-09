@@ -15,13 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@classScore');
 
 Route::get('/class-score', 'HomeController@classScore');
 
 Route::get('/person-score-trend', 'HomeController@personScoreTrend');
 
 Route::get('/person-error-trend', 'HomeController@personErrorTrend');
+
+Route::get('/exam-error', 'HomeController@examError');
 
 
 

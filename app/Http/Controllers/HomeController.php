@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('curve', ['content' => "主页"]);
+        return view('index');
     }
 
     /**
@@ -76,6 +76,7 @@ class HomeController extends Controller
             'exam_name_json' => $examNameJson,
             'data' => $scoreArray,
             'student_select' => $studentSelect,
+            'current_student_id' => $currentStudentId,
             'current_student_name' => $studentSelect[$currentStudentId],
             'url' => 'person-score-trend',
             'title' => '学生分数趋势',
@@ -110,11 +111,56 @@ class HomeController extends Controller
             'exam_name_json' => $examNameJson,
             'data' => $errorCountArray,
             'student_select' => $studentSelect,
+            'current_student_id' => $currentStudentId,
             'current_student_name' => $studentSelect[$currentStudentId],
             'url' => 'person-error-trend',
             'title' => '学生错题趋势',
             'ytitle' => '错题数'
         ]);
     }
+
+
+    public function examError(Request $request)
+    {
+        $tmpArr = $data = [];
+        $total = 0;
+
+        $params = $request->input();
+        $examSelect = Exam::query()->select('exam_id', 'exam_name')->get()->toArray();
+
+        $currentExamId = $params['exam_id'] ?? current($examSelect)['exam_id'];
+
+        $list = StudentExamStat::query()
+            ->where('exam_id', $currentExamId)
+            ->pluck('errors')
+            ->toArray();
+
+        foreach ($list as $item) {
+            $errorArray = explode(',', $item);
+            foreach ($errorArray as $error) {
+                $total += 1;
+                if (isset($tmpArr[$error])) {
+                    $tmpArr[$error]  += 1;
+                } else {
+                    $tmpArr[$error] = 1;
+                }
+            }
+        }
+        if ($total > 0) {
+            foreach ($tmpArr as $tmpKey => $tmpVal) {
+                $data[] = ["第" . $tmpKey . "道题", round($tmpVal / $total, 2)];
+            }
+        }
+
+//        [["IE",26.8],["Safari",8.5],["Opera",6.2],["其他",0.7]]
+        return view('circle',[
+            'title' => current($examSelect)['exam_name'] ."试卷错题分布",
+            'data' => json_encode($data, JSON_UNESCAPED_UNICODE),
+            'url' => 'exam-error',
+            'exam_select' => $examSelect,
+            'current_exam_id' => $currentExamId
+        ]);
+    }
+
 
 }
