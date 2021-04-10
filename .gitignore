@@ -5,7 +5,6 @@
 /storage/*.key
 /storage/framework/*
 /storage/logs/laravel.log
-/resources
 /vendor
 /.idea
 .env
